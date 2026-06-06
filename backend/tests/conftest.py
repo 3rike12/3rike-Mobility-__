@@ -1,10 +1,10 @@
 import pytest
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import create_engine, StaticPool, event
 from sqlalchemy.orm import sessionmaker
 
 from app.database import Base, get_db
 from app.main import app
-from app.models import Station, Prediction
+from app.models import Station, Prediction, OrganizationSettings
 from app.seed import ALL_STATIONS
 
 TEST_DATABASE_URL = "sqlite://"
@@ -13,6 +13,13 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
+
+
+@event.listens_for(engine, "connect")
+def _sqlite_compat(dbapi_con, con_record):
+    dbapi_con.create_function("date_trunc", 2, lambda precision, ts: ts[:13] + ":00:00" if ts else ts)
+
+
 TestingSessionLocal = sessionmaker(bind=engine)
 
 
@@ -37,6 +44,7 @@ def setup_db():
             current_batteries=25,
             max_capacity=50,
         ))
+    db.add(OrganizationSettings())
     db.commit()
     db.close()
     yield

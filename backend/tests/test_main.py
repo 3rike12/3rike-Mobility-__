@@ -14,15 +14,21 @@ def test_list_stations():
     resp = client.get("/stations")
     assert resp.status_code == 200
     data = resp.json()
-    assert len(data) == 25
-    assert data[0]["station_id"] == "vi"
-    assert "lat" in data[0]
+    assert "summary" in data
+    assert "items" in data
+    assert len(data["items"]) == 25
+    assert data["items"][0]["id"] == "vi"
+    assert data["summary"]["totalStations"] == 25
 
 
 def test_get_station_found():
     resp = client.get("/stations/wuse")
     assert resp.status_code == 200
-    assert resp.json()["name"] == "Wuse Station"
+    body = resp.json()
+    assert body["name"] == "Wuse Station"
+    assert "id" in body
+    assert "address" in body
+    assert "updatedAt" in body
 
 
 def test_get_station_not_found():
