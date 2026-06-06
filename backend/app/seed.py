@@ -3,7 +3,7 @@ import random
 from datetime import datetime, timedelta, timezone
 
 from app.database import engine, SessionLocal
-from app.models import Base, Station, SwapEvent, Prediction, FleetTrip, TransportTrip
+from app.models import Base, Station, SwapEvent, Prediction, FleetTrip, TransportTrip, Transfer, OrganizationSettings
 from app.services.forecast import _fallback_forecast
 
 LAGOS_STATIONS = [
@@ -176,6 +176,38 @@ def seed_database():
     db.bulk_save_objects(fleet_batch)
     db.commit()
     print(f"Seeded {len(fleet_batch)} fleet trips")
+
+    # --- Transfers (for redistribution) ---
+    transfer_batch = []
+    vehicles = ["VH-01", "VH-02", "VH-03", "VH-04"]
+    station_ids = [s["station_id"] for s in ALL_STATIONS]
+    transfer_statuses = ["pending", "in_transit", "completed", "cancelled"]
+    for i, v in enumerate(vehicles):
+        from_s = random.choice(station_ids)
+        to_s = random.choice([s for s in station_ids if s != from_s])
+        eta = now + timedelta(hours=random.randint(1, 4))
+        transfer_batch.append(Transfer(
+            vehicle_id=v,
+            from_station_id=from_s,
+            to_station_id=to_s,
+            status=transfer_statuses[i],
+            batteries=random.randint(10, 30),
+            scheduled_at=now + timedelta(hours=random.randint(0, 2)),
+            departed_at=now - timedelta(hours=random.randint(0, 2)) if i < 2 else None,
+            eta_at=eta if i < 2 else None,
+            progress_pct=random.randint(20, 90) if i == 1 else 0,
+            created_at=now - timedelta(hours=random.randint(1, 48)),
+        ))
+    db.bulk_save_objects(transfer_batch)
+    db.commit()
+    print(f"Seeded {len(transfer_batch)} transfers")
+
+    # --- Organization settings ---
+    existing_settings = db.query(OrganizationSettings).first()
+    if not existing_settings:
+        db.add(OrganizationSettings())
+        db.commit()
+        print("Seeded organization settings")
 
     # --- Transport trips (Problem 10) ---
     transport_batch = []

@@ -73,3 +73,40 @@ class TransportTrip(Base):
     started_at = Column(DateTime, nullable=False)
     ended_at = Column(DateTime, nullable=False)
     fare_collected = Column(Float, nullable=False)  # NGN
+
+
+class Transfer(Base):
+    __tablename__ = "transfers"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    vehicle_id = Column(String, nullable=False)
+    from_station_id = Column(String, ForeignKey("stations.station_id"), nullable=False)
+    to_station_id = Column(String, ForeignKey("stations.station_id"), nullable=False)
+    status = Column(String, default="pending")  # pending, in_transit, completed, cancelled
+    batteries = Column(Integer, nullable=False)
+    scheduled_at = Column(DateTime, nullable=True)
+    departed_at = Column(DateTime, nullable=True)
+    eta_at = Column(DateTime, nullable=True)
+    progress_pct = Column(Integer, default=0)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class OrganizationSettings(Base):
+    __tablename__ = "organization_settings"
+
+    id = Column(Integer, primary_key=True, default=1)
+    org_name = Column(String, default="3rike Lagos")
+    org_region = Column(String, default="Lagos")
+    org_currency = Column(String, default="NGN")
+    org_timezone = Column(String, default="Africa/Lagos")
+    critical_below_pct = Column(Integer, default=15)
+    warning_below_pct = Column(Integer, default=30)
+    auto_generate_alerts = Column(Integer, default=1)
+    predictive_warnings = Column(Integer, default=1)
+    forecast_horizon = Column(String, default="24h")
+    auto_redistribute_surplus = Column(Integer, default=1)
+    weather_adjusted = Column(Integer, default=1)
+    critical_alerts = Column(Integer, default=1)
+    daily_digest = Column(Integer, default=1)
+    sms_field_team = Column(Integer, default=0)
+    weekly_report = Column(Integer, default=0)
