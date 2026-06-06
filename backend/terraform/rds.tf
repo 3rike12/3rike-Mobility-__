@@ -1,6 +1,6 @@
 # RDS PostgreSQL instance
 resource "aws_db_subnet_group" "main" {
-  name       = "${var.project_name}-db-subnet-group"
+  name       = "app-${var.project_name}-db-subnet-group"
   subnet_ids = data.aws_subnets.public.ids
 }
 
