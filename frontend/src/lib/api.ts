@@ -341,7 +341,15 @@ export async function loadRedistribution() {
         status: t.status === "in_transit" ? "In Transit" : t.status === "pending" ? "Pending" : t.status === "completed" ? "Completed" : "Cancelled",
         batteries: t.batteries,
         detail:
-          t.status === "in_transit" ? `ETA ${etaLabel(t.etaAt)}` : t.status === "pending" ? `Departs ${clock(t.departsAt)}` : t.status === "completed" ? "Delivered" : "Cancelled",
+          t.status === "in_transit"
+            ? `ETA ${etaLabel(t.etaAt)}`
+            : t.status === "pending"
+              ? t.departsAt
+                ? `Departs ${clock(t.departsAt)}`
+                : "Awaiting dispatch"
+              : t.status === "completed"
+                ? "Delivered"
+                : "Cancelled",
         progress: t.progressPct,
       }))
     : mockTransfers;
