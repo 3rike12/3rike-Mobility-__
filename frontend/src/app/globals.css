@@ -1,26 +1,215 @@
 @import "tailwindcss";
 
+/* ============================================================
+   3rike Swap — Operator Dashboard theme
+   Dark ops console carrying 3rike's signature green (#01C259).
+   ============================================================ */
+
+@theme {
+  /* surfaces */
+  --color-bg: #0a0f0c;
+  --color-surface: #111714;
+  --color-surface-2: #18211c;
+  --color-surface-3: #1f2a23;
+  --color-border: #243029;
+  --color-border-soft: rgba(255, 255, 255, 0.07);
+
+  /* text */
+  --color-text: #f4f7f4;
+  --color-muted: #8a938d;
+  --color-faint: #5c645e;
+
+  /* brand green */
+  --color-green: #01c259;
+  --color-green-hover: #00a049;
+  --color-green-deep: #019f4a;
+  --color-green-soft: #7bcd8a;
+
+  /* status */
+  --color-warning: #f1b058;
+  --color-critical: #ef4444;
+  --color-offline: #6b726d;
+
+  /* accents (sparingly) */
+  --color-purple: #9747ff;
+  --color-lime: #e2f490;
+  --color-info: #5aa9ff;
+
+  --radius: 0.625rem;
+
+  --font-sans: var(--font-outfit), "Outfit", system-ui, sans-serif;
+  --font-mono: var(--font-mono-data), ui-monospace, monospace;
+
+  /* motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-up: fade-up 0.6s var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 0.6s ease both;
+  --animate-pop: pop 0.5s var(--ease-out-soft) both;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop {
+  0% { opacity: 0; transform: scale(0.92); }
+  60% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--ring-color, rgba(1, 194, 89, 0.5)); }
+  70% { box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -1000; }
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  /* atmospheric depth: faint green aurora + vignette */
+  background-image:
+    radial-gradient(900px 500px at 12% -8%, rgba(1, 194, 89, 0.1), transparent 60%),
+    radial-gradient(800px 600px at 100% 0%, rgba(1, 194, 89, 0.05), transparent 55%),
+    radial-gradient(1200px 800px at 50% 120%, rgba(1, 194, 89, 0.04), transparent 60%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(1, 194, 89, 0.3);
+  color: #fff;
+}
+
+/* scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2b362f transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2b362f;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #3a4940;
+  background-clip: padding-box;
+}
+
+/* ---------- helpers ---------- */
+.glow-green {
+  box-shadow: 0 0 24px rgba(1, 194, 89, 0.35);
+}
+.text-glow-green {
+  text-shadow: 0 0 24px rgba(1, 194, 89, 0.45);
+}
+
+.chip-online {
+  background: rgba(1, 194, 89, 0.12);
+  color: #43d684;
+}
+.chip-warning {
+  background: rgba(241, 176, 88, 0.12);
+  color: #f1b058;
+}
+.chip-critical {
+  background: rgba(239, 68, 68, 0.13);
+  color: #f87171;
+}
+.chip-offline {
+  background: rgba(255, 255, 255, 0.06);
+  color: #9aa39d;
+}
+
+/* uppercase micro-label */
+.micro-label {
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* card hover lift */
+.card-hover {
+  transition: transform 0.25s var(--ease-out-soft),
+    border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--color-surface-2);
+}
+
+/* faint dotted grid texture for chart/map planes */
+.grid-plane {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.animate-delay-0 { animation-delay: 0ms; }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
