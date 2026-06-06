@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { STATUS } from "@/lib/utils";
 import { StatusDot } from "@/components/ui/Status";
-import { liveAlerts, type Alert } from "@/lib/data";
+import { type Alert } from "@/lib/data";
 
 const TINT: Record<string, string> = {
   critical: "rgba(239,68,68,0.05)",
@@ -32,11 +32,11 @@ function AlertRow({ alert, index }: { alert: Alert; index: number }) {
   );
 }
 
-export function LiveAlerts() {
+export function LiveAlerts({ alerts }: { alerts: Alert[] }) {
   return (
     <div className="flex h-full flex-col">
       <div className="space-y-2.5">
-        {liveAlerts.map((a, i) => (
+        {alerts.map((a, i) => (
           <AlertRow key={a.station} alert={a} index={i} />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { transfers, type Transfer } from "@/lib/data";
+import { type Transfer } from "@/lib/data";
 
 function TransferRow({ t, index }: { t: Transfer; index: number }) {
   const inTransit = t.status === "In Transit";
@@ -49,7 +49,7 @@ function TransferRow({ t, index }: { t: Transfer; index: number }) {
   );
 }
 
-export function ActiveTransfers() {
+export function ActiveTransfers({ transfers }: { transfers: Transfer[] }) {
   return (
     <div className="space-y-2.5">
       {transfers.map((t, i) => (

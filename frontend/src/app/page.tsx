@@ -5,9 +5,10 @@ import { Panel } from "@/components/ui/Card";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { DemandHeatmap } from "@/components/dashboard/DemandHeatmap";
 import { LiveAlerts } from "@/components/dashboard/LiveAlerts";
-import { dashboardStats, dashboardSecondaryStats } from "@/lib/data";
+import { loadDashboard } from "@/lib/api";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const { topStats, secondaryStats, heatNodes, alerts } = await loadDashboard();
   return (
     <>
       <PageHeader
@@ -17,7 +18,7 @@ export default function DashboardPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {dashboardStats.map((stat, i) => (
+        {topStats.map((stat, i) => (
           <StatCard key={stat.label} stat={stat} index={i} />
         ))}
       </div>
@@ -34,7 +35,7 @@ export default function DashboardPage() {
             />
           }
         >
-          <DemandHeatmap />
+          <DemandHeatmap nodes={heatNodes} />
         </Panel>
 
         <Panel
@@ -43,16 +44,16 @@ export default function DashboardPage() {
           title="Live Alerts"
           badge={
             <span className="chip-critical inline-flex h-5 min-w-5 items-center justify-center rounded-md px-1.5 text-[11px] font-bold">
-              7
+              {alerts.length}
             </span>
           }
         >
-          <LiveAlerts />
+          <LiveAlerts alerts={alerts} />
         </Panel>
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {dashboardSecondaryStats.map((stat, i) => (
+        {secondaryStats.map((stat, i) => (
           <StatCard key={stat.label} stat={stat} index={i + 4} />
         ))}
       </div>

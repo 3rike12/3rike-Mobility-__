@@ -54,7 +54,7 @@ export function StatCard({ stat, index = 0 }: { stat: Stat; index?: number }) {
           <span
             className={cn(
               "inline-flex items-center gap-1 font-medium",
-              tone === "critical" ? "text-critical" : "text-green"
+              tone === "critical" || stat.trend.negative ? "text-critical" : "text-green"
             )}
           >
             {stat.trend.dir === "down" ? (

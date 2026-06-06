@@ -6,7 +6,7 @@ import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { ForecastChart } from "@/components/forecasting/ForecastChart";
 import { AIPredictions } from "@/components/forecasting/AIPredictions";
 import { InsightCard } from "@/components/forecasting/InsightCard";
-import { forecastStats, insights } from "@/lib/data";
+import { loadForecasting } from "@/lib/api";
 
 export const metadata: Metadata = { title: "AI Forecasting" };
 
@@ -26,7 +26,8 @@ function LegendItem({ color, label, dashed }: { color: string; label: string; da
   );
 }
 
-export default function ForecastingPage() {
+export default async function ForecastingPage() {
+  const { stats, series, predictions, insights } = await loadForecasting();
   return (
     <>
       <PageHeader
@@ -40,7 +41,7 @@ export default function ForecastingPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {forecastStats.map((stat, i) => (
+        {stats.map((stat, i) => (
           <StatCard key={stat.label} stat={stat} index={i} />
         ))}
       </div>
@@ -59,7 +60,7 @@ export default function ForecastingPage() {
           }
         >
           <div className="rounded-xl border border-border bg-bg/40 p-2 sm:p-3">
-            <ForecastChart />
+            <ForecastChart series={series} />
           </div>
         </Panel>
 
@@ -69,11 +70,11 @@ export default function ForecastingPage() {
           title="AI Predictions"
           badge={
             <span className="chip-online inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-semibold">
-              Next 6h
+              {predictions.length} · Next 6h
             </span>
           }
         >
-          <AIPredictions />
+          <AIPredictions predictions={predictions} />
         </Panel>
       </div>
 

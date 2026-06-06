@@ -5,7 +5,7 @@ import type { Status } from "./utils";
    Numbers mirror the product mockups (Lagos-first network).
    ============================================================ */
 
-export type Trend = { value: string; dir: "up" | "down" | "flat" };
+export type Trend = { value: string; dir: "up" | "down" | "flat"; negative?: boolean };
 
 export type Stat = {
   label: string;
@@ -227,6 +227,34 @@ export const actualSeries = [
   165, 300, 500, 540, 410, 350, 360, 372, 440, 455,
 ];
 
+// Data-driven chart series (what the live API returns; the chart consumes this shape).
+export type ChartPoint = { t: string; predicted: number; actual: number | null };
+export type ChartSeries = {
+  unitMax: number;
+  nowAt: string;
+  points: ChartPoint[];
+  riskWindows: { startAt: string; endAt: string; severity?: string }[];
+};
+
+const _fbase = Date.parse("2026-06-06T06:00:00Z");
+const _hr = 3_600_000;
+export const mockForecastSeries: ChartSeries = {
+  unitMax: forecastMax,
+  nowAt: new Date(_fbase + nowIndex * _hr).toISOString(),
+  points: predictedSeries.map((p, i) => ({
+    t: new Date(_fbase + i * _hr).toISOString(),
+    predicted: p,
+    actual: i < actualSeries.length ? actualSeries[i] : null,
+  })),
+  riskWindows: [
+    {
+      startAt: new Date(_fbase + riskRange[0] * _hr).toISOString(),
+      endAt: new Date(_fbase + riskRange[1] * _hr).toISOString(),
+      severity: "critical",
+    },
+  ],
+};
+
 export type Prediction = {
   station: string;
   status: Status;
@@ -350,7 +378,7 @@ export const vehicles: Vehicle[] = [
 export type Transfer = {
   id: string;
   route: string;
-  status: "In Transit" | "Pending";
+  status: "In Transit" | "Pending" | "Completed" | "Cancelled";
   batteries: number;
   detail: string; // ETA or departs
   progress: number; // 0..100

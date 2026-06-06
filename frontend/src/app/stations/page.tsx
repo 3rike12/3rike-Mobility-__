@@ -4,10 +4,12 @@ import { PageHeader } from "@/components/shell/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { StationExplorer } from "@/components/stations/StationExplorer";
 import { NetworkSummary } from "@/components/stations/NetworkSummary";
+import { loadStations } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Station Network" };
 
-export default function StationsPage() {
+export default async function StationsPage() {
+  const { stations, summary } = await loadStations();
   return (
     <>
       <PageHeader
@@ -30,7 +32,7 @@ export default function StationsPage() {
         }
       />
 
-      <StationExplorer summary={<NetworkSummary />} />
+      <StationExplorer stations={stations} summary={<NetworkSummary summary={summary} />} />
     </>
   );
 }

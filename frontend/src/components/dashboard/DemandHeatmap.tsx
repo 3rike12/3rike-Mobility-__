@@ -1,5 +1,5 @@
 import { STATUS } from "@/lib/utils";
-import { heatNodes, type HeatNode } from "@/lib/data";
+import { type HeatNode } from "@/lib/data";
 
 function Bubble({ node, index }: { node: HeatNode; index: number }) {
   const s = STATUS[node.status];
@@ -50,7 +50,7 @@ const LEGEND: { label: string; status: keyof typeof STATUS }[] = [
   { label: "Critical", status: "critical" },
 ];
 
-export function DemandHeatmap() {
+export function DemandHeatmap({ nodes }: { nodes: HeatNode[] }) {
   return (
     <div className="relative h-[360px] w-full overflow-hidden rounded-xl border border-border grid-plane">
       {/* green-tinted depth wash */}
@@ -63,7 +63,7 @@ export function DemandHeatmap() {
         }}
       />
 
-      {heatNodes.map((node, i) => (
+      {nodes.map((node, i) => (
         <Bubble key={node.name} node={node} index={i} />
       ))}
 

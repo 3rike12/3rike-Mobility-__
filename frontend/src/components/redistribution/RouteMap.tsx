@@ -1,12 +1,10 @@
-import { mapNodes, routeLines, vehicles, type MapNode } from "@/lib/data";
+import { type MapNode, type RouteLine, type Vehicle } from "@/lib/data";
 
 const COLORS = {
   source: "#01c259",
   destination: "#ef4444",
   vehicle: "#5aa9ff",
 };
-
-const byId = Object.fromEntries(mapNodes.map((n) => [n.id, n]));
 
 function Node({ node, index }: { node: MapNode; index: number }) {
   const color = COLORS[node.kind];
@@ -44,7 +42,16 @@ function Node({ node, index }: { node: MapNode; index: number }) {
   );
 }
 
-export function RouteMap() {
+export function RouteMap({
+  nodes,
+  routes,
+  vehicles,
+}: {
+  nodes: MapNode[];
+  routes: RouteLine[];
+  vehicles: Vehicle[];
+}) {
+  const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   return (
     <div className="relative h-[300px] w-full overflow-hidden rounded-xl border border-border grid-plane sm:h-[420px]">
       <div
@@ -63,7 +70,7 @@ export function RouteMap() {
         preserveAspectRatio="none"
         aria-hidden
       >
-        {routeLines.map((r, i) => {
+        {routes.map((r, i) => {
           const a = byId[r.from];
           const b = byId[r.to];
           if (!a || !b) return null;
@@ -97,7 +104,7 @@ export function RouteMap() {
       </svg>
 
       {/* destination + source nodes */}
-      {mapNodes.map((n, i) => (
+      {nodes.map((n, i) => (
         <Node key={n.id} node={n} index={i} />
       ))}
 

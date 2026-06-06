@@ -5,8 +5,21 @@ import { Panel } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Toggle } from "@/components/ui/Toggle";
 import { InventoryBar } from "@/components/ui/InventoryBar";
+import { loadSettings } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Settings" };
+
+const HORIZON_LABEL: Record<string, string> = {
+  "6h": "Next 6 hours",
+  "12h": "Next 12 hours",
+  "24h": "Next 24 hours",
+  "7d": "Next 7 days",
+};
+const CURRENCY_LABEL: Record<string, string> = {
+  NGN: "NGN (₦)",
+  USD: "USD ($)",
+  GHS: "GHS (₵)",
+};
 
 const inputCls =
   "h-10 w-full rounded-xl border border-border bg-surface-2/70 px-3 text-sm text-text placeholder:text-faint outline-none transition-all duration-200 focus:border-green/50 focus:ring-2 focus:ring-green/20";
@@ -46,7 +59,8 @@ function ToggleRow({
   );
 }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const s = await loadSettings();
   return (
     <>
       <PageHeader
@@ -65,12 +79,12 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div>
               <Label>Operator name</Label>
-              <input className={inputCls} defaultValue="3rike Lagos" />
+              <input className={inputCls} defaultValue={s.organization.name} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label>Primary region</Label>
-                <Select defaultValue="Lagos">
+                <Select defaultValue={s.organization.region}>
                   <option>Lagos</option>
                   <option>Abuja</option>
                   <option>Port Harcourt</option>
@@ -78,7 +92,7 @@ export default function SettingsPage() {
               </div>
               <div>
                 <Label>Currency</Label>
-                <Select defaultValue="NGN (₦)">
+                <Select defaultValue={CURRENCY_LABEL[s.organization.currency] ?? "NGN (₦)"}>
                   <option>NGN (₦)</option>
                   <option>USD ($)</option>
                   <option>GHS (₵)</option>
@@ -100,27 +114,27 @@ export default function SettingsPage() {
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <Label>Critical — battery level below</Label>
-                <span className="tabular text-sm font-semibold text-critical">15%</span>
+                <span className="tabular text-sm font-semibold text-critical">{s.thresholds.criticalBelowPct}%</span>
               </div>
-              <InventoryBar pct={15} />
+              <InventoryBar pct={s.thresholds.criticalBelowPct} />
             </div>
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <Label>Warning — battery level below</Label>
-                <span className="tabular text-sm font-semibold text-warning">30%</span>
+                <span className="tabular text-sm font-semibold text-warning">{s.thresholds.warningBelowPct}%</span>
               </div>
-              <InventoryBar pct={30} />
+              <InventoryBar pct={s.thresholds.warningBelowPct} />
             </div>
             <div className="pt-1">
               <ToggleRow
                 title="Auto-generate alerts"
                 desc="Raise alerts automatically when thresholds are crossed"
-                defaultOn
+                defaultOn={s.thresholds.autoGenerateAlerts}
               />
               <ToggleRow
                 title="Predictive shortage warnings"
                 desc="Warn before a station is forecast to run empty"
-                defaultOn
+                defaultOn={s.thresholds.predictiveWarnings}
               />
             </div>
           </div>
@@ -139,7 +153,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <Label>Forecast horizon</Label>
-              <Select defaultValue="Next 24 hours">
+              <Select defaultValue={HORIZON_LABEL[s.ai.forecastHorizon] ?? "Next 24 hours"}>
                 <option>Next 6 hours</option>
                 <option>Next 12 hours</option>
                 <option>Next 24 hours</option>
@@ -150,12 +164,12 @@ export default function SettingsPage() {
               <ToggleRow
                 title="Auto-redistribute surplus"
                 desc="Let the AI schedule transfers from surplus stations"
-                defaultOn
+                defaultOn={s.ai.autoRedistributeSurplus}
               />
               <ToggleRow
                 title="Weather-adjusted demand"
                 desc="Factor rainfall forecasts into demand predictions"
-                defaultOn
+                defaultOn={s.ai.weatherAdjusted}
               />
             </div>
           </div>
@@ -163,10 +177,10 @@ export default function SettingsPage() {
 
         <Panel className="animate-fade-up" style={{ animationDelay: "240ms" }} title="Notifications">
           <div>
-            <ToggleRow title="Critical shortage alerts" desc="Push immediately for critical stations" defaultOn />
-            <ToggleRow title="Daily summary digest" desc="A network recap every morning at 7 AM" defaultOn />
-            <ToggleRow title="SMS to field team" desc="Text dispatch instructions to drivers" />
-            <ToggleRow title="Weekly performance report" desc="Email a network performance summary" />
+            <ToggleRow title="Critical shortage alerts" desc="Push immediately for critical stations" defaultOn={s.notifications.criticalAlerts} />
+            <ToggleRow title="Daily summary digest" desc="A network recap every morning at 7 AM" defaultOn={s.notifications.dailyDigest} />
+            <ToggleRow title="SMS to field team" desc="Text dispatch instructions to drivers" defaultOn={s.notifications.smsFieldTeam} />
+            <ToggleRow title="Weekly performance report" desc="Email a network performance summary" defaultOn={s.notifications.weeklyReport} />
           </div>
         </Panel>
       </div>

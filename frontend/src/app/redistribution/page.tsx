@@ -6,11 +6,12 @@ import { StatCard } from "@/components/ui/StatCard";
 import { Panel } from "@/components/ui/Card";
 import { RouteMap } from "@/components/redistribution/RouteMap";
 import { ActiveTransfers } from "@/components/redistribution/ActiveTransfers";
-import { redistributionStats } from "@/lib/data";
+import { loadRedistribution } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Redistribution" };
 
-export default function RedistributionPage() {
+export default async function RedistributionPage() {
+  const { stats, map, transfers } = await loadRedistribution();
   return (
     <>
       <PageHeader
@@ -31,7 +32,7 @@ export default function RedistributionPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {redistributionStats.map((stat, i) => (
+        {stats.map((stat, i) => (
           <StatCard key={stat.label} stat={stat} index={i} />
         ))}
       </div>
@@ -42,7 +43,7 @@ export default function RedistributionPage() {
           style={{ animationDelay: "320ms" }}
           title="Active Routes"
         >
-          <RouteMap />
+          <RouteMap nodes={map.nodes} routes={map.routes} vehicles={map.vehicles} />
         </Panel>
 
         <Panel
@@ -51,11 +52,11 @@ export default function RedistributionPage() {
           title="Active Transfers"
           badge={
             <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-[rgba(90,169,255,0.13)] px-1.5 text-[11px] font-bold text-info">
-              5
+              {transfers.length}
             </span>
           }
         >
-          <ActiveTransfers />
+          <ActiveTransfers transfers={transfers} />
         </Panel>
       </div>
     </>

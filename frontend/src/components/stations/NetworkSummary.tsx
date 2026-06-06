@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Truck, TriangleAlert } from "lucide-react";
 import { fmt } from "@/lib/utils";
-import { networkSummary as n } from "@/lib/data";
+import type { Summary } from "@/lib/api";
 
 type SummaryItem = {
   label: string;
@@ -10,20 +10,19 @@ type SummaryItem = {
   tone: "default" | "critical" | "warning";
 };
 
-const items: SummaryItem[] = [
-  { label: "Total Stations", value: String(n.totalStations), sub: `${n.online} online`, tone: "default" },
-  { label: "Total Inventory", value: fmt(n.totalInventory), sub: `/${fmt(n.totalCapacity)}`, tone: "default" },
-  { label: "Critical Stations", value: String(n.critical), sub: "need attention", tone: "critical" },
-  { label: "Warning Stations", value: String(n.warning), sub: "low inventory", tone: "warning" },
-];
-
 const TONE = {
   default: { wrap: "border-border bg-surface-2/50", value: "text-text", sub: "text-green" },
   critical: { wrap: "border-critical/25 bg-[rgba(239,68,68,0.06)]", value: "text-critical", sub: "text-critical/90" },
   warning: { wrap: "border-warning/25 bg-[rgba(241,176,88,0.06)]", value: "text-warning", sub: "text-warning/90" },
 } as const;
 
-export function NetworkSummary() {
+export function NetworkSummary({ summary: n }: { summary: Summary }) {
+  const items: SummaryItem[] = [
+    { label: "Total Stations", value: String(n.totalStations), sub: `${n.online} online`, tone: "default" },
+    { label: "Total Inventory", value: fmt(n.totalInventory), sub: `/${fmt(n.totalCapacity)}`, tone: "default" },
+    { label: "Critical Stations", value: String(n.critical), sub: "need attention", tone: "critical" },
+    { label: "Warning Stations", value: String(n.warning), sub: "low inventory", tone: "warning" },
+  ];
   return (
     <div
       className="animate-fade-up rounded-2xl border border-border bg-surface p-5 sm:p-6"

@@ -1,6 +1,6 @@
 import { TriangleAlert, Clock, TrendingUp, type LucideIcon } from "lucide-react";
 import { STATUS } from "@/lib/utils";
-import { predictions, type Prediction } from "@/lib/data";
+import { type Prediction } from "@/lib/data";
 
 const TAG_ICON: Record<Prediction["tagKind"], LucideIcon> = {
   critical: TriangleAlert,
@@ -21,7 +21,7 @@ function PredictionRow({ p, index }: { p: Prediction; index: number }) {
   return (
     <div
       className="relative animate-fade-up overflow-hidden rounded-xl border border-border p-4 pl-[18px] transition-colors hover:border-hairline"
-      style={{ background: TINT[p.status], animationDelay: `${150 + index * 90}ms` }}
+      style={{ background: TINT[p.status], animationDelay: `${120 + Math.min(index, 7) * 70}ms` }}
     >
       <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: color }} />
       <div className="flex items-center justify-between gap-2">
@@ -39,9 +39,9 @@ function PredictionRow({ p, index }: { p: Prediction; index: number }) {
   );
 }
 
-export function AIPredictions() {
+export function AIPredictions({ predictions }: { predictions: Prediction[] }) {
   return (
-    <div className="space-y-2.5">
+    <div className="-mr-2 max-h-[480px] space-y-2.5 overflow-y-auto pr-2 lg:max-h-[clamp(420px,52vh,640px)]">
       {predictions.map((p, i) => (
         <PredictionRow key={p.station} p={p} index={i} />
       ))}
