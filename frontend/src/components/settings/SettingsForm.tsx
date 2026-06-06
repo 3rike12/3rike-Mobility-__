@@ -8,8 +8,8 @@ import { Panel } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
 import type { Settings } from "@/lib/api";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
+// same-origin proxy (see next.config rewrites) — avoids HTTPS→HTTP mixed content
+const API_URL = "/api";
 
 const inputCls =
   "h-10 w-full rounded-xl border border-border bg-surface-2/70 px-3 text-sm text-text placeholder:text-faint outline-none transition-all duration-200 focus:border-green/50 focus:ring-2 focus:ring-green/20";

@@ -7,8 +7,8 @@ import { Truck, X, ChevronDown, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/Toast";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
+// same-origin proxy (see next.config rewrites) — avoids HTTPS→HTTP mixed content
+const API_URL = "/api";
 
 type StationOpt = { id: string; name: string; status: string };
 

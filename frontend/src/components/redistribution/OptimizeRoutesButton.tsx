@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { Sparkles, X, ArrowRight, TrendingUp } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
+// same-origin proxy (see next.config rewrites) — avoids HTTPS→HTTP mixed content
+const API_URL = "/api";
 
 type Proposed = {
   fromStationId: string;
