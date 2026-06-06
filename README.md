@@ -13,7 +13,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-Python-009688?logo=fastapi)](https://fastapi.tiangolo.com)
 [![AWS](https://img.shields.io/badge/AWS-Bedrock·Lambda·RDS·EC2-FF9900?logo=amazonaws)](https://aws.amazon.com)
 
-**🔗 Live demo: [3rike-mobility-swap.vercel.app](https://3rike-mobility-swap.vercel.app)**
+**🔗 Live demo: [admin-3rike-swap.vercel.app](https://3rike-swap.vercel.app/)**
 
 <sub>Built for the **One With AI Hackathon** by **Arthurite Integrated — Team 3rike** · Problem Statement 6: Battery-Swapping Demand</sub>
 
@@ -173,12 +173,11 @@ The browser talks only to the dashboard's **own HTTPS origin** at `/api/*`; Next
 
 ## 👥 Team — Arthurite Integrated · 3rike
 
-| Role | Responsibility |
-|---|---|
-| **AI / Backend** | Lambda + Bedrock forecasting, RDS schema, 14+ FastAPI endpoints |
-| **Frontend** | Next.js dashboard — heatmap, forecast charts, redistribution, live actions |
-| **DevOps / AWS** | Terraform IaC, IAM, EventBridge, EC2, CloudWatch |
-| **Product / Docs** | SOW, architecture diagram, demo video, submission package |
+| Member | Role | Responsibility |
+|---|---|---|
+| **Martin Machiebe** | Frontend Engineer | Next.js dashboard — heatmap, forecast charts, redistribution, live actions |
+| **Anita Ndukwe** | Backend Engineer | FastAPI service, Bedrock forecasting, RDS schema, 14+ REST endpoints |
+| **Andrew David** | Cloud / DevOps | Terraform IaC, IAM, EventBridge, Lambda, EC2, CloudWatch, CI/CD |
 
 ---
 
