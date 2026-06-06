@@ -71,10 +71,10 @@ export function ForecastChart() {
             x2={W - padR}
             y1={yAt(t)}
             y2={yAt(t)}
-            stroke="rgba(255,255,255,0.06)"
+            stroke="var(--color-line)"
             vectorEffect="non-scaling-stroke"
           />
-          <text x={padL - 8} y={yAt(t) + 3.5} textAnchor="end" fontSize="11" fill="#5c645e">
+          <text x={padL - 8} y={yAt(t) + 3.5} textAnchor="end" fontSize="11" fill="var(--color-faint)">
             {t}
           </text>
         </g>
@@ -112,7 +112,7 @@ export function ForecastChart() {
       {/* x labels */}
       {forecastHours.map((label, i) =>
         label ? (
-          <text key={i} x={xAt(i)} y={H - 10} textAnchor="middle" fontSize="11" fill="#5c645e">
+          <text key={i} x={xAt(i)} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-faint)">
             {label}
           </text>
         ) : null
@@ -124,11 +124,11 @@ export function ForecastChart() {
         x2={xAt(nowIndex)}
         y1={padT}
         y2={padT + plotH}
-        stroke="rgba(255,255,255,0.22)"
+        stroke="var(--color-line-strong)"
         strokeDasharray="4 4"
         vectorEffect="non-scaling-stroke"
       />
-      <text x={xAt(nowIndex)} y={padT - 5} textAnchor="middle" fontSize="11" fontWeight="600" fill="#8a938d">
+      <text x={xAt(nowIndex)} y={padT - 5} textAnchor="middle" fontSize="11" fontWeight="600" fill="var(--color-muted)">
         Now
       </text>
 

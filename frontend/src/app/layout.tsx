@@ -35,7 +35,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${mono.variable} h-full`}>
+    <html lang="en" className={`${outfit.variable} ${mono.variable} h-full`} suppressHydrationWarning>
+      <head>
+        <script
+          // set theme before paint to avoid a flash of the wrong theme
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');document.documentElement.dataset.theme=(t==='light'||t==='dark')?t:'dark';}catch(e){document.documentElement.dataset.theme='dark';}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full antialiased">
         <AppShell>{children}</AppShell>
       </body>

@@ -6,24 +6,31 @@
    ============================================================ */
 
 @theme {
-  /* surfaces */
-  --color-bg: #000000;
-  --color-surface: #111714;
-  --color-surface-2: #18211c;
-  --color-surface-3: #1f2a23;
-  --color-border: #243029;
-  --color-border-soft: rgba(255, 255, 255, 0.07);
+  /* surfaces — resolved per theme via the --c-* vars below */
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-surface-3: var(--c-surface-3);
+  --color-sidebar: var(--c-sidebar);
+  --color-border: var(--c-border);
+  --color-border-soft: var(--c-border-soft);
 
   /* text */
-  --color-text: #f4f7f4;
-  --color-muted: #8a938d;
-  --color-faint: #5c645e;
+  --color-text: var(--c-text);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+
+  /* neutral utility tints (theme-aware light/dark) */
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-track: var(--c-track);
+  --color-hairline: var(--c-hairline);
 
   /* brand green */
   --color-green: #01c259;
   --color-green-hover: #00a049;
   --color-green-deep: #019f4a;
-  --color-green-soft: #7bcd8a;
+  --color-green-soft: var(--c-green-soft);
 
   /* status */
   --color-warning: #f1b058;
@@ -92,8 +99,76 @@
   to { transform: scaleX(1); }
 }
 
+/* ---------- DARK (default) ---------- */
 :root {
   color-scheme: dark;
+
+  --c-bg: #000000;
+  --c-surface: #111714;
+  --c-surface-2: #18211c;
+  --c-surface-3: #1f2a23;
+  --c-sidebar: #0a0e0c;
+  --c-border: #243029;
+  --c-border-soft: rgba(255, 255, 255, 0.07);
+
+  --c-text: #f4f7f4;
+  --c-muted: #8a938d;
+  --c-faint: #5c645e;
+
+  --c-line: rgba(255, 255, 255, 0.05);
+  --c-line-strong: rgba(255, 255, 255, 0.22);
+  --c-track: rgba(255, 255, 255, 0.07);
+  --c-hairline: rgba(255, 255, 255, 0.12);
+
+  --c-green-soft: #7bcd8a;
+
+  /* accent icon tiles */
+  --accent-green: #2bd178;    --accent-green-bg: rgba(1, 194, 89, 0.12);
+  --accent-info: #5aa9ff;     --accent-info-bg: rgba(90, 169, 255, 0.13);
+  --accent-purple: #a874ff;   --accent-purple-bg: rgba(151, 71, 255, 0.15);
+  --accent-warning: #f1b058;  --accent-warning-bg: rgba(241, 176, 88, 0.13);
+  --accent-critical: #f87171; --accent-critical-bg: rgba(239, 68, 68, 0.14);
+
+  /* status chips */
+  --chip-online-text: #43d684;   --chip-online-bg: rgba(1, 194, 89, 0.12);
+  --chip-warning-text: #f1b058;  --chip-warning-bg: rgba(241, 176, 88, 0.12);
+  --chip-critical-text: #f87171; --chip-critical-bg: rgba(239, 68, 68, 0.13);
+  --chip-offline-text: #9aa39d;  --chip-offline-bg: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- LIGHT ---------- */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --c-bg: #eef2ea;
+  --c-surface: #ffffff;
+  --c-surface-2: #f3f7f1;
+  --c-surface-3: #e9efe6;
+  --c-sidebar: #ffffff;
+  --c-border: #e1e8dd;
+  --c-border-soft: rgba(0, 0, 0, 0.06);
+
+  --c-text: #0f1a13;
+  --c-muted: #56655b;
+  --c-faint: #8a978d;
+
+  --c-line: rgba(0, 0, 0, 0.06);
+  --c-line-strong: rgba(0, 0, 0, 0.16);
+  --c-track: rgba(0, 0, 0, 0.08);
+  --c-hairline: rgba(0, 0, 0, 0.1);
+
+  --c-green-soft: #3fa45c;
+
+  --accent-green: #03a14a;    --accent-green-bg: rgba(1, 194, 89, 0.14);
+  --accent-info: #2f7fd9;     --accent-info-bg: rgba(47, 127, 217, 0.12);
+  --accent-purple: #7c3aed;   --accent-purple-bg: rgba(124, 58, 237, 0.12);
+  --accent-warning: #a86d12;  --accent-warning-bg: rgba(241, 176, 88, 0.2);
+  --accent-critical: #dc2626; --accent-critical-bg: rgba(239, 68, 68, 0.12);
+
+  --chip-online-text: #018a3f;   --chip-online-bg: rgba(1, 194, 89, 0.14);
+  --chip-warning-text: #946312;  --chip-warning-bg: rgba(241, 176, 88, 0.22);
+  --chip-critical-text: #c62f2f; --chip-critical-bg: rgba(239, 68, 68, 0.11);
+  --chip-offline-text: #5b6b60;  --chip-offline-bg: rgba(0, 0, 0, 0.06);
 }
 
 * {
@@ -119,20 +194,20 @@ body {
 /* scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2b362f transparent;
+  scrollbar-color: var(--color-surface-3) transparent;
 }
 *::-webkit-scrollbar {
   width: 9px;
   height: 9px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #2b362f;
+  background: var(--color-surface-3);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #3a4940;
+  background: var(--color-muted);
   background-clip: padding-box;
 }
 
@@ -145,20 +220,20 @@ body {
 }
 
 .chip-online {
-  background: rgba(1, 194, 89, 0.12);
-  color: #43d684;
+  background: var(--chip-online-bg);
+  color: var(--chip-online-text);
 }
 .chip-warning {
-  background: rgba(241, 176, 88, 0.12);
-  color: #f1b058;
+  background: var(--chip-warning-bg);
+  color: var(--chip-warning-text);
 }
 .chip-critical {
-  background: rgba(239, 68, 68, 0.13);
-  color: #f87171;
+  background: var(--chip-critical-bg);
+  color: var(--chip-critical-text);
 }
 .chip-offline {
-  background: rgba(255, 255, 255, 0.06);
-  color: #9aa39d;
+  background: var(--chip-offline-bg);
+  color: var(--chip-offline-text);
 }
 
 /* uppercase micro-label */
@@ -183,15 +258,15 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-hairline);
   background-color: var(--color-surface-2);
 }
 
 /* faint dotted grid texture for chart/map planes */
 .grid-plane {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 

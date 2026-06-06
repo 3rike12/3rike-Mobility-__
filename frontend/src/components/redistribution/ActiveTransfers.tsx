@@ -8,7 +8,7 @@ function TransferRow({ t, index }: { t: Transfer; index: number }) {
       className={cn(
         "animate-fade-up rounded-xl border p-4 transition-colors",
         inTransit
-          ? "border-border bg-surface-2/50 hover:border-white/12"
+          ? "border-border bg-surface-2/50 hover:border-hairline"
           : "border-warning/25 bg-[rgba(241,176,88,0.05)]"
       )}
       style={{ animationDelay: `${150 + index * 80}ms` }}
@@ -33,7 +33,7 @@ function TransferRow({ t, index }: { t: Transfer; index: number }) {
         <span className={cn("font-mono", inTransit ? "text-info" : "text-warning")}>{t.detail}</span>
       </div>
 
-      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/[0.07]">
+      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-track">
         <div
           className="h-full rounded-full"
           style={{

@@ -13,7 +13,7 @@ export function InventoryBar({
   const fill = color ?? inventoryColor(pct);
   const clamped = Math.max(0, Math.min(100, pct));
   return (
-    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.07]">
+    <div className="h-1.5 w-full overflow-hidden rounded-full bg-track">
       <div
         className="h-full rounded-full"
         style={{
