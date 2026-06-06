@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sidebar } from "./Sidebar";
 import { Logo } from "./Logo";
+import { ToastProvider } from "@/components/ui/Toast";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
+    <ToastProvider>
     <div className="min-h-screen">
       {/* desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[268px] border-r border-border lg:block">
@@ -68,5 +70,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </main>
     </div>
+    </ToastProvider>
   );
 }

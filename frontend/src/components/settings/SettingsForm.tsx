@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Panel } from "@/components/ui/Card";
+import { useToast } from "@/components/ui/Toast";
 import type { Settings } from "@/lib/api";
 
 const API_URL =
@@ -15,6 +16,7 @@ const inputCls =
 
 export function SettingsForm({ initial }: { initial: Settings }) {
   const router = useRouter();
+  const toast = useToast();
   const [form, setForm] = useState<Settings>(initial);
   const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -38,6 +40,7 @@ export function SettingsForm({ initial }: { initial: Settings }) {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error(`Save failed (${res.status})`);
+      toast({ title: "Settings saved", description: "Your changes are live across the network." });
       setSaved(true);
       setDirty(false);
       router.refresh();

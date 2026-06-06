@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Truck, X, ChevronDown, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/Toast";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
@@ -16,6 +17,7 @@ const inputCls =
 
 export function ScheduleRedistributionButton() {
   const router = useRouter();
+  const toast = useToast();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [stations, setStations] = useState<StationOpt[]>([]);
@@ -68,6 +70,12 @@ export function ScheduleRedistributionButton() {
         body: JSON.stringify({ fromStationId: from, toStationId: to, batteries: Number(batteries) }),
       });
       if (!res.ok) throw new Error(res.status === 422 ? "Not enough batteries at the source station." : `Request failed (${res.status})`);
+      const fromName = stations.find((s) => s.id === from)?.name ?? from;
+      const toName = stations.find((s) => s.id === to)?.name ?? to;
+      toast({
+        title: "Redistribution scheduled",
+        description: `${batteries} batteries · ${fromName} → ${toName}`,
+      });
       setOpen(false);
       router.refresh();
     } catch (err) {

@@ -98,6 +98,10 @@
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
+@keyframes toast-bar {
+  from { width: 100%; }
+  to { width: 0%; }
+}
 
 /* ---------- DARK (default) ---------- */
 :root {
@@ -173,6 +177,21 @@
 
 * {
   border-color: var(--color-border);
+}
+
+/* pointer cursor only on genuinely interactive elements */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+[role="switch"],
+a[href],
+select,
+summary,
+label[for] {
+  cursor: pointer;
+}
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
 }
 
 html {

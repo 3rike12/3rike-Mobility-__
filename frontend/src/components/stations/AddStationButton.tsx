@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/Toast";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
@@ -14,6 +15,7 @@ const inputCls =
 
 export function AddStationButton() {
   const router = useRouter();
+  const toast = useToast();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -64,6 +66,7 @@ export function AddStationButton() {
         }),
       });
       if (!res.ok) throw new Error(`Request failed (${res.status})`);
+      toast({ title: "Station added", description: name.trim() });
       setOpen(false);
       reset();
       router.refresh(); // re-fetch the server-rendered station list

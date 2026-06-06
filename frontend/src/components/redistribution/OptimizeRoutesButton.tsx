@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Sparkles, X, ArrowRight, TrendingUp } from "lucide-react";
+import { useToast } from "@/components/ui/Toast";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://3.213.111.199:8000";
@@ -22,6 +23,7 @@ function titleCase(id: string) {
 
 export function OptimizeRoutesButton() {
   const router = useRouter();
+  const toast = useToast();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState<"loading" | "done" | "applying">("loading");
@@ -68,6 +70,10 @@ export function OptimizeRoutesButton() {
         body: JSON.stringify({ horizon: "6h", autoApply: true }),
       });
       if (!res.ok) throw new Error(`Apply failed (${res.status})`);
+      toast({
+        title: "Transfers dispatched",
+        description: `${proposed.length} optimized ${proposed.length === 1 ? "route" : "routes"} scheduled`,
+      });
       setOpen(false);
       router.refresh();
     } catch (e) {
