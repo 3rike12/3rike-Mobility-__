@@ -1,14 +1,15 @@
-name: Deploy Infrastructure
+name: Deploy
 
 on:
   push:
     branches: [main]
     paths:
       - "backend/terraform/**"
+      - "backend/app/**"
+      - "backend/pyproject.toml"
   workflow_dispatch:
 
 env:
-  TF_ROOT: backend/terraform
   AWS_REGION: eu-north-1
 
 permissions:
@@ -17,10 +18,11 @@ permissions:
 
 jobs:
   terraform:
+    if: github.event_name == 'workflow_dispatch' || contains(join(github.event.push.modified, ' '), 'backend/terraform/') || contains(join(github.event.push.added, ' '), 'backend/terraform/')
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ env.TF_ROOT }}
+        working-directory: backend/terraform
 
     steps:
       - uses: actions/checkout@v4
@@ -38,12 +40,42 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan -no-color
-        env:
-          TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
-
       - name: Terraform Apply
         run: terraform apply -auto-approve -no-color
         env:
           TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+
+  update-app:
+    if: github.event_name == 'workflow_dispatch' || contains(join(github.event.push.modified, ' '), 'backend/app/') || contains(join(github.event.push.added, ' '), 'backend/app/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get EC2 Instance ID
+        id: ec2
+        run: |
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=3rike-mobility-backend" "Name=instance-state-name,Values=running" \
+            --query "Reservations[0].Instances[0].InstanceId" --output text)
+          echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
+
+      - name: Update app on EC2 via SSM
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ steps.ec2.outputs.instance_id }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "cd /opt/3rike-mobility && git pull origin main",
+              "cd /opt/3rike-mobility/backend && /opt/3rike-mobility/backend/.venv/bin/uv sync",
+              "systemctl restart fastapi"
+            ]' \
+            --comment "Deploy backend app update" \
+            --output text
