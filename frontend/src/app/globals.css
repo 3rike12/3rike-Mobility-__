@@ -7,7 +7,7 @@
 
 @theme {
   /* surfaces */
-  --color-bg: #0a0f0c;
+  --color-bg: #000000;
   --color-surface: #111714;
   --color-surface-2: #18211c;
   --color-surface-3: #1f2a23;
@@ -109,12 +109,6 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-  /* atmospheric depth: faint green aurora + vignette */
-  background-image:
-    radial-gradient(900px 500px at 12% -8%, rgba(1, 194, 89, 0.1), transparent 60%),
-    radial-gradient(800px 600px at 100% 0%, rgba(1, 194, 89, 0.05), transparent 55%),
-    radial-gradient(1200px 800px at 50% 120%, rgba(1, 194, 89, 0.04), transparent 60%);
-  background-attachment: fixed;
 }
 
 ::selection {
