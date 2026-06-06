@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from typing import Any
 
 DATABASE_URL = os.environ["DATABASE_URL"]
-AWS_REGION = os.environ["AWS_REGION"]
+AWS_REGION = os.environ["TARGET_AWS_REGION"]
 S3_BUCKET = os.environ["S3_BUCKET"]
 BEDROCK_MODEL = os.environ.get("BEDROCK_MODEL", "anthropic.claude-3-haiku-20240307-v1:0")
 

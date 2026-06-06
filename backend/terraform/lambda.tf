@@ -71,10 +71,10 @@ resource "aws_lambda_function" "forecast" {
 
   environment {
     variables = {
-      DATABASE_URL  = "postgresql://postgres:${var.db_password}@${aws_db_instance.postgres.address}:5432/swap_db"
-      AWS_REGION    = var.aws_region
-      S3_BUCKET     = aws_s3_bucket.swap_data.id
-      BEDROCK_MODEL = var.bedrock_model_id
+      DATABASE_URL      = "postgresql://postgres:${var.db_password}@${aws_db_instance.postgres.address}:5432/swap_db"
+      TARGET_AWS_REGION = var.aws_region
+      S3_BUCKET         = aws_s3_bucket.swap_data.id
+      BEDROCK_MODEL     = var.bedrock_model_id
     }
   }
 }
