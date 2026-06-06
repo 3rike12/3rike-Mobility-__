@@ -1,0 +1,69 @@
+digraph "3rike Mobility — AWS Architecture" {
+	graph [bgcolor="#ffffff" dpi=150 fontcolor="#2D3436" fontname="Sans-Serif" fontsize=15 label="3rike Mobility — AWS Architecture" nodesep=0.60 pad=0.5 rankdir=LR ranksep=0.75 splines=ortho]
+	node [fixedsize=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 height=1.4 imagescale=true labelloc=b shape=box style=rounded width=1.4]
+	edge [color="#7B8894"]
+	b99542f6d6f4425387788bfb4b4769b1 [label=Operator height=1.9 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/general/user.png" shape=none]
+	d3254ac49041430393fcfa1c606e23c2 [label="Next.js Frontend
+(Vercel / EC2)" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/general/client.png" shape=none]
+	subgraph "cluster_AWS Cloud — us-east-1" {
+		graph [bgcolor="#E5F5FD" fontname="Sans-Serif" fontsize=12 label="AWS Cloud — us-east-1" labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+		subgraph cluster_Compute {
+			graph [bgcolor="#EBF3E7" fontname="Sans-Serif" fontsize=12 label=Compute labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+			"3bc6b95c49da4bada4a7e5192b0bc5d4" [label="FastAPI Backend
+t3.micro" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/compute/ec2.png" shape=none]
+		}
+		subgraph "cluster_Data Layer" {
+			graph [bgcolor="#EBF3E7" fontname="Sans-Serif" fontsize=12 label="Data Layer" labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+			"41a5973674d24b64b7da9ab12d546575" [label="RDS PostgreSQL
+db.t3.micro" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/database/rds.png" shape=none]
+			c49116ba23fd4d01ad633924a8c441b2 [label="Swap Data
+Bucket" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/storage/simple-storage-service-s3.png" shape=none]
+		}
+		subgraph "cluster_AI Forecasting" {
+			graph [bgcolor="#EBF3E7" fontname="Sans-Serif" fontsize=12 label="AI Forecasting" labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+			fb2a46c13d2244c4b2bf5c1c97ce9966 [label="EventBridge
+30-min schedule" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/integration/eventbridge.png" shape=none]
+			"914d68f1b51147f79f01c9042a953dd7" [label="Forecast Lambda" height=1.9 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/compute/lambda.png" shape=none]
+			d5dc631690c14e27bf289bca877dd421 [label="Claude Haiku 4.5
+(Bedrock)" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/ml/bedrock.png" shape=none]
+			"43c8403f6ac941428d1005843f8d4d2a" [label="Fallback
+Moving Avg" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/compute/lambda.png" shape=none]
+		}
+		subgraph "cluster_Security & Operations" {
+			graph [bgcolor="#EBF3E7" fontname="Sans-Serif" fontsize=12 label="Security & Operations" labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+			"10a29ca55bad4d809ad8879bec9ac043" [label="IAM Roles
+& Policies" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/security/identity-and-access-management-iam.png" shape=none]
+			"4c5601f9a6704c248fc6660e776b4052" [label="CloudWatch
+Alarms & Logs" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/management/cloudwatch.png" shape=none]
+		}
+		"03516669a9e24917b2da0ff98df041f1" [label="SSM
+Run Command" height=2.3 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/aws/management/systems-manager.png" shape=none]
+	}
+	subgraph "cluster_CI/CD Pipeline" {
+		graph [bgcolor="#E5F5FD" fontname="Sans-Serif" fontsize=12 label="CI/CD Pipeline" labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+		"8557d801014c47d0a368913270e939ac" [label="GitHub Actions" height=1.9 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/onprem/ci/github-actions.png" shape=none]
+		d66df688b22e4b5e93e9702034d30dfc [label="Terraform IaC" height=1.9 image="/home/emperorsixpacks/GitHub/3rike-Mobility-__/backend/.venv/lib/python3.13/site-packages/resources/generic/compute/rack.png" shape=none]
+	}
+	b99542f6d6f4425387788bfb4b4769b1 -> d3254ac49041430393fcfa1c606e23c2 [label="Dashboard UI" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d3254ac49041430393fcfa1c606e23c2 -> "3bc6b95c49da4bada4a7e5192b0bc5d4" [label="REST API calls" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"3bc6b95c49da4bada4a7e5192b0bc5d4" -> "41a5973674d24b64b7da9ab12d546575" [label=SQL dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"3bc6b95c49da4bada4a7e5192b0bc5d4" -> c49116ba23fd4d01ad633924a8c441b2 [label="Read history" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	fb2a46c13d2244c4b2bf5c1c97ce9966 -> "914d68f1b51147f79f01c9042a953dd7" [label="rate(30 min)" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"914d68f1b51147f79f01c9042a953dd7" -> d5dc631690c14e27bf289bca877dd421 [label="AI forecast" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"914d68f1b51147f79f01c9042a953dd7" -> "43c8403f6ac941428d1005843f8d4d2a" [label=fallback dir=none fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 style=dashed]
+	"914d68f1b51147f79f01c9042a953dd7" -> "41a5973674d24b64b7da9ab12d546575" [label="Write predictions" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"914d68f1b51147f79f01c9042a953dd7" -> c49116ba23fd4d01ad633924a8c441b2 [label="Read swap data" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"3bc6b95c49da4bada4a7e5192b0bc5d4" -> "41a5973674d24b64b7da9ab12d546575" [label="Read predictions" dir=back fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 style=dotted]
+	"8557d801014c47d0a368913270e939ac" -> d66df688b22e4b5e93e9702034d30dfc [label="push → terraform apply" dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> "41a5973674d24b64b7da9ab12d546575" [label=provision color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> c49116ba23fd4d01ad633924a8c441b2 [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> "3bc6b95c49da4bada4a7e5192b0bc5d4" [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> "914d68f1b51147f79f01c9042a953dd7" [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> fb2a46c13d2244c4b2bf5c1c97ce9966 [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> "10a29ca55bad4d809ad8879bec9ac043" [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	d66df688b22e4b5e93e9702034d30dfc -> "4c5601f9a6704c248fc6660e776b4052" [color=darkgreen dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"8557d801014c47d0a368913270e939ac" -> "03516669a9e24917b2da0ff98df041f1" [label="SSM send-command" color=blue dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"03516669a9e24917b2da0ff98df041f1" -> "3bc6b95c49da4bada4a7e5192b0bc5d4" [label="git pull + restart" color=blue dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"3bc6b95c49da4bada4a7e5192b0bc5d4" -> "4c5601f9a6704c248fc6660e776b4052" [label=metrics color=orange dir=none fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 style=dashed]
+	"914d68f1b51147f79f01c9042a953dd7" -> "4c5601f9a6704c248fc6660e776b4052" [label=logs color=orange dir=none fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 style=dashed]
+}
