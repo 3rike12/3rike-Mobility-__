@@ -14,7 +14,7 @@ function AlertRow({ alert, index }: { alert: Alert; index: number }) {
   const s = STATUS[alert.status];
   return (
     <div
-      className="group relative animate-fade-up overflow-hidden rounded-xl border border-border p-3.5 pl-4 transition-colors hover:border-white/12"
+      className="group relative animate-fade-up overflow-hidden rounded-xl border border-border p-3.5 pl-4 transition-colors hover:border-hairline"
       style={{ background: TINT[alert.status], animationDelay: `${150 + index * 80}ms` }}
     >
       <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: s.solid }} />

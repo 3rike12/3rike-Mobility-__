@@ -62,7 +62,7 @@ export function NetworkSummary() {
         </Link>
         <button
           type="button"
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.02] px-4 py-2.5 text-sm font-medium text-text transition-colors hover:border-white/25 hover:bg-white/[0.06]"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm font-medium text-text transition-colors hover:border-hairline hover:bg-surface-3"
         >
           <TriangleAlert className="size-[18px] text-warning" />
           View All Alerts

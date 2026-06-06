@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type NavItem = { label: string; href: string; icon: LucideIcon };
 
@@ -27,7 +28,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-col bg-[#0a0e0c]">
+    <div className="flex h-full flex-col bg-sidebar">
       <div className="px-5 pt-6">
         <Logo />
       </div>
@@ -45,7 +46,7 @@ export function Sidebar() {
                 "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 active
                   ? "bg-[rgba(1,194,89,0.12)] text-green"
-                  : "text-muted hover:bg-white/[0.04] hover:text-text"
+                  : "text-muted hover:bg-surface-2 hover:text-text"
               )}
             >
               {active && (
@@ -64,8 +65,14 @@ export function Sidebar() {
         })}
       </nav>
 
+      {/* appearance */}
+      <div className="mx-3 mb-2 flex items-center justify-between rounded-xl border border-border bg-surface-2/40 py-2 pl-3 pr-2">
+        <span className="text-[12px] font-medium text-muted">Appearance</span>
+        <ThemeToggle />
+      </div>
+
       {/* operator card */}
-      <div className="mx-3 mb-4 mt-2 rounded-xl border border-border bg-surface-2/60 p-3">
+      <div className="mx-3 mb-4 rounded-xl border border-border bg-surface-2/60 p-3">
         <div className="flex items-center gap-3">
           <div className="grid size-9 place-items-center rounded-full bg-[conic-gradient(from_140deg,#01c259,#019f4a,#7bcd8a,#01c259)] text-[13px] font-bold text-[#06210f]">
             AO

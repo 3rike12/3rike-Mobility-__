@@ -20,7 +20,7 @@ function PredictionRow({ p, index }: { p: Prediction; index: number }) {
   const TagIcon = TAG_ICON[p.tagKind];
   return (
     <div
-      className="relative animate-fade-up overflow-hidden rounded-xl border border-border p-4 pl-[18px] transition-colors hover:border-white/12"
+      className="relative animate-fade-up overflow-hidden rounded-xl border border-border p-4 pl-[18px] transition-colors hover:border-hairline"
       style={{ background: TINT[p.status], animationDelay: `${150 + index * 90}ms` }}
     >
       <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: color }} />

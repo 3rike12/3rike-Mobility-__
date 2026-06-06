@@ -56,9 +56,9 @@ export function Icon({
 export type AccentKey = "green" | "info" | "purple" | "warning" | "critical";
 
 export const ACCENT: Record<AccentKey, { bg: string; color: string }> = {
-  green: { bg: "rgba(1,194,89,0.12)", color: "#2bd178" },
-  info: { bg: "rgba(90,169,255,0.13)", color: "#5aa9ff" },
-  purple: { bg: "rgba(151,71,255,0.15)", color: "#a874ff" },
-  warning: { bg: "rgba(241,176,88,0.13)", color: "#f1b058" },
-  critical: { bg: "rgba(239,68,68,0.14)", color: "#f87171" },
+  green: { bg: "var(--accent-green-bg)", color: "var(--accent-green)" },
+  info: { bg: "var(--accent-info-bg)", color: "var(--accent-info)" },
+  purple: { bg: "var(--accent-purple-bg)", color: "var(--accent-purple)" },
+  warning: { bg: "var(--accent-warning-bg)", color: "var(--accent-warning)" },
+  critical: { bg: "var(--accent-critical-bg)", color: "var(--accent-critical)" },
 };
