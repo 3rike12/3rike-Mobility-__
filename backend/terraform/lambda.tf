@@ -96,4 +96,6 @@ resource "aws_lambda_permission" "cloudwatch" {
   function_name = aws_lambda_function.forecast.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.half_hourly.arn
+
+  depends_on = [aws_cloudwatch_event_target.lambda]
 }
