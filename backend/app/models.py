@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.database import Base
 
@@ -21,7 +21,7 @@ class SwapEvent(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     station_id = Column(String, ForeignKey("stations.station_id"), nullable=False)
-    recorded_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    recorded_at = Column(DateTime, nullable=False)
     swaps_count = Column(Integer, nullable=False)
 
     station = relationship("Station")
@@ -34,10 +34,42 @@ class Prediction(Base):
     station_id = Column(String, ForeignKey("stations.station_id"), nullable=False)
     hour = Column(DateTime, nullable=False)
     predicted_demand = Column(Integer, nullable=False)
-    generated_at = Column(DateTime, default=datetime.utcnow)
+    generated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     station = relationship("Station")
 
     __table_args__ = (
         UniqueConstraint("station_id", "hour", name="uq_station_hour"),
     )
+
+
+class FleetTrip(Base):
+    __tablename__ = "fleet_trips"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    vehicle_id = Column(String, nullable=False)
+    driver = Column(String, nullable=False)
+    route_from = Column(String, nullable=False)
+    route_to = Column(String, nullable=False)
+    distance_km = Column(Float, nullable=False)
+    fuel_used_l = Column(Float, nullable=False)
+    fuel_expected_l = Column(Float, nullable=False)
+    started_at = Column(DateTime, nullable=False)
+    ended_at = Column(DateTime, nullable=False)
+    deviation_km = Column(Float, default=0)
+    unauthorized_stop = Column(Integer, default=0)
+    status = Column(String, default="completed")
+
+
+class TransportTrip(Base):
+    __tablename__ = "transport_trips"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    vehicle_type = Column(String, nullable=False)  # danfo, keke, okada
+    vehicle_id = Column(String, nullable=False)
+    route_name = Column(String, nullable=False)
+    passenger_count = Column(Integer, nullable=False)
+    distance_km = Column(Float, nullable=False)
+    started_at = Column(DateTime, nullable=False)
+    ended_at = Column(DateTime, nullable=False)
+    fare_collected = Column(Float, nullable=False)  # NGN

@@ -14,8 +14,8 @@ def test_list_stations():
     resp = client.get("/stations")
     assert resp.status_code == 200
     data = resp.json()
-    assert len(data) == 6
-    assert data[0]["station_id"] == "wuse"
+    assert len(data) == 25
+    assert data[0]["station_id"] == "vi"
     assert "lat" in data[0]
 
 

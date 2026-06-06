@@ -1,10 +1,10 @@
-from app.seed import generate_swap_csv, NIGERIAN_STATIONS, _swap_pattern
+from app.seed import generate_swap_csv, ALL_STATIONS, _swap_pattern
 import csv
 import tempfile
 
 
 def test_nigerian_stations_count():
-    assert len(NIGERIAN_STATIONS) == 6
+    assert len(ALL_STATIONS) == 25
 
 
 def test_swap_pattern_ranges():
@@ -36,4 +36,4 @@ def test_generate_csv():
             header = rows[0]
             assert header == ["station_id", "ds", "y"]
             total_rows = len(rows) - 1
-            assert total_rows == 6 * 14 * 24
+            assert total_rows == 25 * 14 * 24

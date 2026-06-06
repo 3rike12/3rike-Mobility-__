@@ -79,14 +79,14 @@ resource "aws_lambda_function" "forecast" {
   }
 }
 
-# Schedule Lambda every hour
-resource "aws_cloudwatch_event_rule" "hourly" {
+# Schedule Lambda every 30 minutes
+resource "aws_cloudwatch_event_rule" "half_hourly" {
   name                = "${var.project_name}-forecast-schedule"
-  schedule_expression = "rate(1 hour)"
+  schedule_expression = "rate(30 minutes)"
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
-  rule      = aws_cloudwatch_event_rule.hourly.name
+  rule      = aws_cloudwatch_event_rule.half_hourly.name
   target_id = "forecast"
   arn       = aws_lambda_function.forecast.arn
 }
@@ -95,5 +95,5 @@ resource "aws_lambda_permission" "cloudwatch" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.forecast.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.hourly.arn
+  source_arn    = aws_cloudwatch_event_rule.half_hourly.arn
 }

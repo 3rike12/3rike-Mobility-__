@@ -55,6 +55,24 @@ resource "aws_iam_role_policy_attachment" "ec2_ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_policy" "ec2_invoke_lambda" {
+  name        = "${var.project_name}-ec2-invoke-lambda"
+  description = "Allow EC2 to invoke the forecast Lambda"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = "lambda:InvokeFunction"
+      Resource = aws_lambda_function.forecast.arn
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_invoke_lambda_attach" {
+  role       = aws_iam_role.ec2.name
+  policy_arn = aws_iam_policy.ec2_invoke_lambda.arn
+}
+
 resource "aws_iam_instance_profile" "ec2" {
   name = "${var.project_name}-ec2-profile"
   role = aws_iam_role.ec2.name

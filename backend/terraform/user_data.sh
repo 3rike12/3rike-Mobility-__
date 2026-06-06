@@ -43,6 +43,10 @@ EOF
 # Seed the database (ignore if already seeded)
 /usr/local/bin/uv run python -m app.seed 2>&1 || echo "Seed may have already run"
 
+# Trigger the Lambda immediately so predictions exist
+echo "Invoking forecast Lambda for immediate predictions..."
+aws lambda invoke --function-name 3rike-mobility-forecast --invocation-type Event /tmp/lambda-invoke.json 2>&1 || echo "Lambda invoke deferred"
+
 # Create systemd service
 cat > /etc/systemd/system/fastapi.service << 'SERVICEEOF'
 [Unit]
