@@ -13,6 +13,7 @@ uv.lock
 *.tfvars
 .terraform/
 crash.log
+*.zip
 
 # --- Environment ---
 .env
