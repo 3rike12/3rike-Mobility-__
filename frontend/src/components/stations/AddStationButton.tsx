@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,9 +14,12 @@ const inputCls =
 
 export function AddStationButton() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => setMounted(true), []);
 
   const [name, setName] = useState("");
   const [capacity, setCapacity] = useState("50");
@@ -81,12 +85,14 @@ export function AddStationButton() {
         Add Station
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
-          />
+      {open &&
+        mounted &&
+        createPortal(
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
+            />
           <form
             onSubmit={submit}
             className="relative w-full max-w-md animate-pop rounded-2xl border border-border bg-surface p-6 shadow-2xl"
@@ -168,8 +174,9 @@ export function AddStationButton() {
               </button>
             </div>
           </form>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
