@@ -9,5 +9,5 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
-source .env
+set -a; source .env; set +a
 terraform destroy -auto-approve
