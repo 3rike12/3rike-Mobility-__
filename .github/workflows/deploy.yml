@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: eu-north-1
+  AWS_REGION: us-east-1
 
 permissions:
   id-token: write
@@ -73,8 +73,8 @@ jobs:
             --instance-ids "${{ steps.ec2.outputs.instance_id }}" \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
-              "cd /opt/3rike-mobility && git pull origin main",
-              "cd /opt/3rike-mobility/backend && /opt/3rike-mobility/backend/.venv/bin/uv sync",
+              "cd /opt/3rike-Mobility-__ && git pull origin main",
+              "cd /opt/3rike-Mobility-__/backend && /opt/3rike-Mobility-__/backend/.venv/bin/uv sync",
               "systemctl restart fastapi"
             ]' \
             --comment "Deploy backend app update" \
