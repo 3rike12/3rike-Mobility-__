@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-label="3rike Swap — AI-Powered Battery-Swap Demand Prediction">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0f0c"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="14%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#01c259" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#01c259" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="92%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#01c259" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#01c259" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#01c259" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#01c259" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#01c259" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <filter id="tileGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#01c259" flood-opacity="0.55"/>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- backdrop -->
+  <rect width="1280" height="360" fill="url(#bg)"/>
+  <rect width="1280" height="360" fill="url(#grid)"/>
+  <rect width="1280" height="360" fill="url(#glowL)"/>
+  <rect width="1280" height="360" fill="url(#glowR)"/>
+
+  <!-- heatmap-style demand nodes (right) -->
+  <g>
+    <circle cx="1080" cy="120" r="46" fill="#01c259" filter="url(#soft)" opacity="0.5"/>
+    <circle cx="1170" cy="210" r="40" fill="#ef4444" filter="url(#soft)" opacity="0.5"/>
+    <circle cx="1010" cy="250" r="34" fill="#f1b058" filter="url(#soft)" opacity="0.45"/>
+    <circle cx="1080" cy="120" r="11" fill="#01c259" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2"/>
+    <circle cx="1170" cy="210" r="10" fill="#ef4444" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2"/>
+    <circle cx="1010" cy="250" r="9"  fill="#f1b058" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2"/>
+  </g>
+
+  <!-- logo tile -->
+  <g filter="url(#tileGlow)">
+    <rect x="84" y="112" width="92" height="92" rx="24" fill="#01c259"/>
+    <rect x="84" y="112" width="92" height="92" rx="24" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+  </g>
+  <!-- lightning bolt -->
+  <path transform="translate(108,134) scale(2.6)" d="M13 2 L4 14 h7 l-1 8 L20 10 h-7 z" fill="#06210f"/>
+
+  <!-- wordmark -->
+  <text x="200" y="178" font-family="'Outfit','Segoe UI',system-ui,-apple-system,Roboto,sans-serif" font-size="74" font-weight="800" letter-spacing="-1">
+    <tspan fill="#f4f7f4">3rike </tspan><tspan fill="#01c259">Swap</tspan>
+  </text>
+
+  <!-- tagline -->
+  <text x="202" y="222" font-family="'Outfit','Segoe UI',system-ui,-apple-system,Roboto,sans-serif" font-size="25" font-weight="500" fill="#8a938d">
+    AI-Powered Battery-Swap Demand Prediction
+  </text>
+
+  <!-- meta chips -->
+  <g font-family="'Outfit','Segoe UI',system-ui,sans-serif" font-size="15" font-weight="600">
+    <g transform="translate(202,250)">
+      <rect width="150" height="30" rx="15" fill="#01c259" fill-opacity="0.12"/>
+      <circle cx="20" cy="15" r="4" fill="#01c259"/>
+      <text x="34" y="20" fill="#2bd178">Forecast · 24h</text>
+    </g>
+    <g transform="translate(364,250)">
+      <rect width="146" height="30" rx="15" fill="#ffffff" fill-opacity="0.06"/>
+      <text x="16" y="20" fill="#c7cdc8">Redistribute</text>
+    </g>
+    <g transform="translate(522,250)">
+      <rect width="118" height="30" rx="15" fill="#ffffff" fill-opacity="0.06"/>
+      <text x="16" y="20" fill="#c7cdc8">Prevent</text>
+    </g>
+  </g>
+
+  <!-- bottom hairline -->
+  <rect x="0" y="358" width="1280" height="2" fill="url(#hair)"/>
+</svg>
