@@ -155,8 +155,8 @@ function scatter(i: number, n: number): { x: number; y: number } {
   const jy = (((i * 61) % 100) / 100) * 10 - 5;
   const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
   return {
-    x: clamp(9 + ((col + 0.5) / cols) * 82 + jx, 4, 96),
-    y: clamp(12 + ((row + 0.5) / rows) * 74 + jy, 8, 92),
+    x: clamp(14 + ((col + 0.5) / cols) * 72 + jx, 12, 88),
+    y: clamp(16 + ((row + 0.5) / rows) * 66 + jy, 14, 86),
   };
 }
 
