@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { stationFilters, type StationFilter, type Station } from "@/lib/data";
 import { StationCard } from "./StationCard";
+import { useStationSearch } from "./StationSearch";
 
 function matches(filter: StationFilter, status: string): boolean {
   switch (filter) {
@@ -29,7 +29,7 @@ export function StationExplorer({
   summary: React.ReactNode;
 }) {
   const [filter, setFilter] = useState<StationFilter>("All");
-  const [query, setQuery] = useState("");
+  const { query } = useStationSearch();
   const q = query.trim().toLowerCase();
   const filtered = stations.filter(
     (s) => matches(filter, s.status) && (q === "" || s.name.toLowerCase().includes(q))
@@ -37,10 +37,9 @@ export function StationExplorer({
 
   return (
     <div className="space-y-4">
-      {/* filters + search */}
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap gap-2">
-          {stationFilters.map((f) => {
+      {/* filter pills */}
+      <div className="flex flex-wrap gap-2">
+        {stationFilters.map((f) => {
           const active = f === filter;
           const count =
             f === "All" ? stations.length : stations.filter((s) => matches(f, s.status)).length;
@@ -67,19 +66,7 @@ export function StationExplorer({
               </span>
             </button>
           );
-          })}
-        </div>
-
-        <div className="relative lg:w-64">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-faint" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search stations…"
-            className="h-10 w-full rounded-xl border border-border bg-surface-2/70 pl-9 pr-3 text-sm text-text placeholder:text-faint outline-none transition-all duration-200 focus:border-green/50 focus:ring-2 focus:ring-green/20"
-          />
-        </div>
+        })}
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
