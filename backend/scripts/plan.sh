@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DIR="$(cd "$(dirname "$0")/../terraform" && pwd)"
-cd "$DIR"
+DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-if [ ! -f .env ]; then
-  echo "Missing .env in terraform/ — copy .env.example to .env and fill in your values"
+if [ ! -f "$DIR/.env" ]; then
+  echo "Missing .env in backend/ — copy .env.example to .env and fill in your values"
   exit 1
 fi
 
-set -a; source .env; set +a
+set -a; source "$DIR/.env"; set +a
+cd "$DIR/terraform"
 terraform init
 terraform plan
