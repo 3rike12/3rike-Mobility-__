@@ -6,6 +6,7 @@ import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { ForecastChart } from "@/components/forecasting/ForecastChart";
 import { AIPredictions } from "@/components/forecasting/AIPredictions";
 import { InsightCard } from "@/components/forecasting/InsightCard";
+import { AutoRefresh } from "@/components/shell/AutoRefresh";
 import { loadForecasting } from "@/lib/api";
 
 export const metadata: Metadata = { title: "AI Forecasting" };
@@ -30,6 +31,7 @@ export default async function ForecastingPage() {
   const { stats, series, predictions, insights } = await loadForecasting();
   return (
     <>
+      <AutoRefresh seconds={60} />
       <PageHeader
         title="AI Demand Forecasting"
         subtitle="Predictive analytics powered by machine learning"

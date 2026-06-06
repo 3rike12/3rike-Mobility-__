@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Truck, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { fmt } from "@/lib/utils";
 import type { Summary } from "@/lib/api";
+import { ScheduleRedistributionButton } from "@/components/redistribution/ScheduleRedistributionButton";
 
 type SummaryItem = {
   label: string;
@@ -52,20 +53,14 @@ export function NetworkSummary({ summary: n }: { summary: Summary }) {
 
       <h3 className="mt-6 text-[13px] font-semibold text-muted">Quick Actions</h3>
       <div className="mt-3 space-y-2.5">
+        <ScheduleRedistributionButton />
         <Link
           href="/redistribution"
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-green px-4 py-2.5 text-sm font-semibold text-[#06210f] shadow-[0_0_20px_rgba(1,194,89,0.3)] transition-all duration-200 hover:bg-green-hover hover:shadow-[0_0_28px_rgba(1,194,89,0.45)] active:scale-[0.98]"
-        >
-          <Truck className="size-[18px]" />
-          Schedule Redistribution
-        </Link>
-        <button
-          type="button"
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-4 py-2.5 text-sm font-medium text-text transition-colors hover:border-hairline hover:bg-surface-3"
         >
           <TriangleAlert className="size-[18px] text-warning" />
           View All Alerts
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Clock, Sparkles } from "lucide-react";
+import { Clock } from "lucide-react";
 import { PageHeader } from "@/components/shell/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { StatCard } from "@/components/ui/StatCard";
 import { Panel } from "@/components/ui/Card";
+import { OptimizeRoutesButton } from "@/components/redistribution/OptimizeRoutesButton";
 import { RouteMap } from "@/components/redistribution/RouteMap";
 import { ActiveTransfers } from "@/components/redistribution/ActiveTransfers";
+import { AutoRefresh } from "@/components/shell/AutoRefresh";
 import { loadRedistribution } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Redistribution" };
@@ -14,6 +16,7 @@ export default async function RedistributionPage() {
   const { stats, map, transfers } = await loadRedistribution();
   return (
     <>
+      <AutoRefresh seconds={12} />
       <PageHeader
         title="Redistribution Planner"
         subtitle="Optimize battery logistics across your station network"
@@ -23,10 +26,7 @@ export default async function RedistributionPage() {
               <Clock className="size-[18px] text-muted" />
               Today
             </Button>
-            <Button>
-              <Sparkles className="size-[18px]" />
-              Optimize Routes
-            </Button>
+            <OptimizeRoutesButton />
           </>
         }
       />

@@ -5,12 +5,14 @@ import { Panel } from "@/components/ui/Card";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { DemandHeatmap } from "@/components/dashboard/DemandHeatmap";
 import { LiveAlerts } from "@/components/dashboard/LiveAlerts";
+import { AutoRefresh } from "@/components/shell/AutoRefresh";
 import { loadDashboard } from "@/lib/api";
 
 export default async function DashboardPage() {
   const { topStats, secondaryStats, heatNodes, alerts } = await loadDashboard();
   return (
     <>
+      <AutoRefresh seconds={12} />
       <PageHeader
         title="Operations Dashboard"
         subtitle="Real-time demand forecasting and inventory management"
