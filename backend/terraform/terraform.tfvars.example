@@ -1,0 +1,6 @@
+# Terraform auto-loads this file.
+# Copy to terraform.tfvars, fill in values (DO NOT commit terraform.tfvars)
+# See .env.example for the env-var approach instead.
+
+db_password = "your-strong-password"
+apn_id      = ""
